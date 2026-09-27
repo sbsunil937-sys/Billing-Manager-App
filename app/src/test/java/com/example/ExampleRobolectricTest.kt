@@ -53,6 +53,33 @@ class ExampleRobolectricTest {
     }
 
     @Test
+    fun `create bill state calculations with gst and discount`() {
+        val items = listOf(
+            BillItem(name = "Product A", qty = 2.0, rate = 100.0), // 200
+            BillItem(name = "Product B", qty = 1.0, rate = 300.0)  // 300
+        )
+        val state = com.example.ui.viewmodel.CreateBillState(
+            items = items,
+            gstPercent = 18.0,
+            discount = 50.0
+        )
+        // subtotal = 500
+        assertEquals(500.0, state.subtotal, 0.001)
+        // discounted base = 500 - 50 = 450
+        // gst = 450 * 18% = 81.0
+        assertEquals(81.0, state.gstAmount, 0.001)
+        // grand total = 450 + 81 = 531.0
+        assertEquals(531.0, state.grandTotal, 0.001)
+    }
+
+    @Test
+    fun `main activity launches and composes successfully`() {
+        val controller = org.robolectric.Robolectric.buildActivity(MainActivity::class.java)
+        controller.setup()
+        assertNotNull(controller.get())
+    }
+
+    @Test
     fun `backup data export and import test`() {
         val bill = BillEntity(
             id = "test-bill-1",

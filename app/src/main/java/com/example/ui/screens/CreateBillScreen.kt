@@ -190,9 +190,13 @@ fun CreateBillScreen(
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { customerDropdownExpanded = true }
                                 .testTag("customer_select_field"),
                             shape = RoundedCornerShape(10.dp)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { customerDropdownExpanded = true }
                         )
 
                         DropdownMenu(
@@ -259,9 +263,13 @@ fun CreateBillScreen(
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { statusDropdownExpanded = true }
                                     .testTag("payment_status_input"),
                                 shape = RoundedCornerShape(10.dp)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .clickable { statusDropdownExpanded = true }
                             )
                             DropdownMenu(
                                 expanded = statusDropdownExpanded,
@@ -292,9 +300,13 @@ fun CreateBillScreen(
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { methodDropdownExpanded = true }
                                     .testTag("payment_method_input"),
                                 shape = RoundedCornerShape(10.dp)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .clickable { methodDropdownExpanded = true }
                             )
                             DropdownMenu(
                                 expanded = methodDropdownExpanded,

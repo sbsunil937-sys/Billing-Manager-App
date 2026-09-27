@@ -238,15 +238,24 @@ fun AuthDialog(
 
                         Button(
                             onClick = {
-                                if (email.isBlank() || password.isBlank()) {
+                                val trimmedEmail = email.trim()
+                                val trimmedPass = password.trim()
+                                if (trimmedEmail.isBlank() || trimmedPass.isBlank()) {
                                     viewModel.emitToast("Please enter email and password")
                                     return@Button
+                                }
+                                if (isRegisterMode) {
+                                    viewModel.signUpWithEmail(trimmedEmail, trimmedPass)
+                                } else {
+                                    viewModel.signInWithEmail(trimmedEmail, trimmedPass)
                                 }
                                 onDismiss()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = BrandPrimary),
                             shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("auth_submit_btn")
                         ) {
                             Text(if (isRegisterMode) "Create Account" else "Sign In", fontWeight = FontWeight.Bold)
                         }

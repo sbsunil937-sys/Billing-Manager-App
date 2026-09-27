@@ -396,6 +396,34 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun signInWithEmail(email: String, pass: String) {
+        viewModelScope.launch {
+            _isSyncing.value = true
+            val result = authManager.signInWithEmail(email, pass)
+            _isSyncing.value = false
+            if (result.isSuccess) {
+                emitToast("Signed in as ${result.getOrNull()?.email}")
+                repository.syncAllNow()
+            } else {
+                emitToast("Sign-in failed: ${result.exceptionOrNull()?.message ?: "Check credentials"}")
+            }
+        }
+    }
+
+    fun signUpWithEmail(email: String, pass: String) {
+        viewModelScope.launch {
+            _isSyncing.value = true
+            val result = authManager.signUpWithEmail(email, pass)
+            _isSyncing.value = false
+            if (result.isSuccess) {
+                emitToast("Account created for ${result.getOrNull()?.email}")
+                repository.syncAllNow()
+            } else {
+                emitToast("Sign-up failed: ${result.exceptionOrNull()?.message ?: "Try again"}")
+            }
+        }
+    }
+
     fun signOut() {
         authManager.signOut()
         emitToast("Signed out")
